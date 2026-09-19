@@ -1,4 +1,4 @@
-# 🛡️ FraudSentinel X
+# 🛡️ Sentinel X
 
 > **AI-Powered Fraud Detection, Scam Intelligence & Investigation Platform**
 
@@ -597,9 +597,9 @@ Fraud datasets are imbalanced, so **accuracy is not the primary metric**.
 
 ---
 
-# 🏆 Why FraudSentinel X?
+# 🏆 Why Sentinel X?
 
-FraudSentinel X is more than a fraud classifier—it is a complete **AI-powered fraud investigation ecosystem**.
+Sentinel X is more than a fraud classifier—it is a complete **AI-powered fraud investigation ecosystem**.
 
 ### Core Innovation
 
