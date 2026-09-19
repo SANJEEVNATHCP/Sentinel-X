@@ -1,7 +1,24 @@
+import { useEffect, useState } from 'react';
 import RiskScore from '../components/RiskScore';
 import RiskFactors from '../components/RiskFactors';
 import TransactionCard from '../components/TransactionCard';
+import securityImage from '../../images.jpg';
+import shieldImage from '../../images (1).jpg';
+
+const activityImages = [
+  { source: securityImage, label: 'Network intelligence' },
+  { source: shieldImage, label: 'Active protection' },
+];
 
 export default function Dashboard({ onNavigate }) {
-  return <><div className="page-intro"><div><span className="eyebrow">Account overview</span><h1>Security overview</h1><p className="muted">A clear view of your financial protection and recent activity.</p></div><button className="button primary" onClick={() => onNavigate('Investigator')}>Open investigator</button></div><div className="dashboard-grid"><RiskScore /><section className="panel stats-panel"><div className="stat"><span className="eyebrow">Protected</span><strong className="stat-value">48.2k</strong><span className="stat-label">monitored volume</span></div><div className="stat"><span className="eyebrow">Checks</span><strong className="stat-value">1,284</strong><span className="stat-label">automated this month</span></div><div className="stat"><span className="eyebrow">Blocked</span><strong className="stat-value">07</strong><span className="stat-label">suspicious attempts</span></div><div className="stat"><span className="eyebrow">Accuracy</span><strong className="stat-value">99.4%</strong><span className="stat-label">model confidence</span></div></section><RiskFactors /><section className="panel wide-panel"><div className="panel-heading"><h2>Recent activity</h2><button className="button" onClick={() => onNavigate('Transaction')}>View all</button></div><div className="transactions"><TransactionCard merchant="Northstar Market" meta="Today, 10:42 AM · Card ending 4821" amount="-$84.20" /><TransactionCard merchant="Morrow Studio" meta="Yesterday, 4:18 PM · Card ending 4821" amount="-$1,240.00" status="Review" /></div></section></div></>;
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveImage((current) => (current + 1) % activityImages.length);
+    }, 4500);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return <><div className="page-intro"><div><span className="eyebrow">Account overview</span><h1>Security overview</h1><p className="muted">A clear view of your financial protection and recent activity.</p></div><button className="button primary" onClick={() => onNavigate('Investigator')}>Open investigator</button></div><div className="dashboard-grid"><RiskScore /><section className="panel stats-panel"><div className="stat"><span className="eyebrow">Protected</span><strong className="stat-value">48.2k</strong><span className="stat-label">monitored volume</span></div><div className="stat"><span className="eyebrow">Checks</span><strong className="stat-value">1,284</strong><span className="stat-label">automated this month</span></div><div className="stat"><span className="eyebrow">Blocked</span><strong className="stat-value">07</strong><span className="stat-label">suspicious attempts</span></div><div className="stat"><span className="eyebrow">Accuracy</span><strong className="stat-value">99.4%</strong><span className="stat-label">model confidence</span></div></section><RiskFactors /><section className="panel wide-panel"><div className="panel-heading"><h2>Recent activity</h2><button className="button" onClick={() => onNavigate('Transaction')}>View all</button></div><div className="transactions"><TransactionCard merchant="Northstar Market" meta="Today, 10:42 AM · Card ending 4821" amount="-$84.20" /><TransactionCard merchant="Morrow Studio" meta="Yesterday, 4:18 PM · Card ending 4821" amount="-$1,240.00" status="Review" /></div><div className="activity-gallery"><img src={activityImages[activeImage].source} alt={activityImages[activeImage].label} /><div className="gallery-caption"><span>{activityImages[activeImage].label}</span><span>{String(activeImage + 1).padStart(2, '0')} / {String(activityImages.length).padStart(2, '0')}</span></div></div></section></div></>;
 }
