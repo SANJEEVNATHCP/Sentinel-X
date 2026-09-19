@@ -1,11 +1,24 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from backend.database.database import init_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Automatically initialize SQLite database tables on startup
+    init_db()
+    yield
+
 
 app = FastAPI(
     title="FraudSentinel X API",
     description="Backend API for FraudSentinel X prototype.",
     version="0.1.0",
+    lifespan=lifespan,
 )
+
 
 # ---------------------------------------------------------
 # CORS Middleware Configuration
