@@ -1,0 +1,1 @@
+export default function Loading() { return <div className="panel"><span className="muted">Loading intelligence...</span></div>; }

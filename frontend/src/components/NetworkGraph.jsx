@@ -1,0 +1,3 @@
+export default function NetworkGraph() {
+  return <div className="panel graph"><div className="panel-heading"><h2>Entity network</h2><span className="muted">12 connected entities</span></div><svg viewBox="0 0 600 220" role="img" aria-label="Transaction entity network"><g stroke="#557177" strokeWidth="1.5"><path d="M300 110L130 55M300 110L155 170M300 110L475 55M300 110L470 175M300 110L300 25" /></g><circle className="graph-node" cx="300" cy="110" r="18"/><circle className="graph-node" cx="130" cy="55" r="11"/><circle className="graph-node alert" cx="155" cy="170" r="13"/><circle className="graph-node" cx="475" cy="55" r="11"/><circle className="graph-node" cx="470" cy="175" r="11"/><circle className="graph-node" cx="300" cy="25" r="10"/></svg></div>;
+}
