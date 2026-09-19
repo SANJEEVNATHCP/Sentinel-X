@@ -6,6 +6,6 @@ export default function Navbar({ activePage, onNavigate }) {
     <nav className="nav-links" aria-label="Main navigation">
       {links.map((link) => <button className={`nav-button ${activePage === link ? 'active' : ''}`} key={link} onClick={() => onNavigate(link)}>{link}</button>)}
     </nav>
-    <div className="profile"><span>Alex Morgan</span><span className="avatar">AM</span></div>
+    <div className="profile"><span>User</span><span className="avatar">U</span></div>
   </header>;
 }
