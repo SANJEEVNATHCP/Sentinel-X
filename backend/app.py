@@ -40,12 +40,14 @@ app.add_middleware(
 )
 
 # ---------------------------------------------------------
-# Future Module Connections (to be wired in subsequent steps):
-# - api/       : Attach API routers (e.g. app.include_router(router, prefix="/api/v1"))
-# - database/  : Setup database connection, ORM models, and session dependencies
-# - services/  : Business logic layer (ScamShield, ML inference services, etc.)
-# - schemas/   : Pydantic request and response schemas
+# Routers Registration
 # ---------------------------------------------------------
+from backend.api.transactions import router as transactions_router
+from backend.api.scamshield import router as scamshield_router
+
+app.include_router(transactions_router)
+app.include_router(scamshield_router)
+
 
 
 @app.get("/")
