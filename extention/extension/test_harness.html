@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScamShield AI — Extension Preview & Test Harness</title>
+  <style>
+    body {
+      background: #060b19;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 960px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .header-banner {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .header-banner h1 {
+      font-size: 22px;
+      color: #38bdf8;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    .header-banner p {
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    .layout-grid {
+      display: flex;
+      gap: 30px;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .preview-frame-wrap {
+      background: #030712;
+      padding: 12px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .frame-title {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: monospace;
+    }
+    iframe {
+      width: 340px;
+      height: 480px;
+      border: 1px solid #1e293b;
+      background: #00122e;
+    }
+    .controls-panel {
+      background: #04193d;
+      border: 1px solid #233b63;
+      padding: 20px;
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #38bdf8;
+      border-bottom: 1px solid #233b63;
+      padding-bottom: 8px;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .control-group label {
+      font-size: 12px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    .btn-test {
+      background: #0a2552;
+      color: #f8fafc;
+      border: 1px solid #334d75;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .btn-test:hover {
+      background: #123775;
+    }
+    .btn-test.active {
+      border-color: #38bdf8;
+      background: #1e40af;
+    }
+    .spec-card {
+      background: #021128;
+      border: 1px solid #233b63;
+      padding: 12px;
+      font-size: 11px;
+      color: #9bb1cf;
+      line-height: 1.5;
+    }
+    .spec-card strong {
+      color: #f8fafc;
+    }
+    .badge-inactive {
+      background: #8b1318;
+      color: #fecaca;
+      font-size: 10px;
+      padding: 2px 6px;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 2px;
+    }
+    .badge-active {
+      background: #065f46;
+      color: #a7f3d0;
+      font-size: 10px;
+      padding: 2px 6px;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-banner">
+      <h1>SCAMSHIELD AI — EXTENSION & SAMPLE.XLSX VERIFICATION</h1>
+      <p>Real-time dataset integration: Warns on INACTIVE companies from sample.xlsx</p>
+    </div>
+
+    <div class="layout-grid">
+      <!-- Popup Frame -->
+      <div class="preview-frame-wrap">
+        <div class="frame-title">Chrome Extension Popup (Netmirror Style)</div>
+        <iframe id="popupFrame" src="popup.html?testUrl=https://www.southbankmosaics.com/work"></iframe>
+      </div>
+
+      <!-- Simulator Controls -->
+      <div class="controls-panel">
+        <div class="panel-title">Test Active Tab Scenarios (sample.xlsx)</div>
+
+        <div class="control-group">
+          <label>sample.xlsx Inactive Companies (Triggers Warning):</label>
+          <button class="btn-test active" id="btnTestInactive1">
+            ⚠ <strong>southbankmosaics.com</strong><br>
+            <span class="badge-inactive">STATUS: INACTIVE (sample.xlsx)</span>
+          </button>
+
+          <button class="btn-test" id="btnTestInactive2">
+            ⚠ <strong>voicefmradio.co.uk</strong><br>
+            <span class="badge-inactive">STATUS: INACTIVE (sample.xlsx)</span>
+          </button>
+        </div>
+
+        <div class="control-group">
+          <label>sample.xlsx Active Companies (No Warning):</label>
+          <button class="btn-test" id="btnTestActive1">
+            ✓ <strong>tcs.com</strong> (Tata Consultancy Services)<br>
+            <span class="badge-active">STATUS: ACTIVE (sample.xlsx)</span>
+          </button>
+
+          <button class="btn-test" id="btnTestActive2">
+            ✓ <strong>infosys.com</strong> (Infosys Limited)<br>
+            <span class="badge-active">STATUS: ACTIVE (sample.xlsx)</span>
+          </button>
+        </div>
+
+        <div class="control-group">
+          <label>Other Scenarios:</label>
+          <button class="btn-test" id="btnTestThreat">
+            ⚠ <strong>google-careers-example.xyz</strong><br>
+            <small style="color:#f87171">Scam threat feed</small>
+          </button>
+
+          <button class="btn-test" id="btnTestClean">
+            ✓ <strong>wikipedia.org</strong><br>
+            <small style="color:#38bdf8">Unknown / Not in dataset</small>
+          </button>
+        </div>
+
+        <div class="spec-card">
+          <strong>sample.xlsx Integration:</strong><br>
+          • Connected to <code>sample.xlsx</code> (Company Master Dataset)<br>
+          • <strong>Inactive</strong> status automatically triggers <strong>⚠ SCAMSHIELD WARNING</strong><br>
+          • <strong>Active</strong> status confirms verified active status without threat warning<br>
+          • Live backend running on <code>http://127.0.0.1:8000</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const iframe = document.getElementById("popupFrame");
+
+    function loadUrl(url, btn) {
+      document.querySelectorAll(".btn-test").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      iframe.src = `popup.html?testUrl=${encodeURIComponent(url)}`;
+    }
+
+    document.getElementById("btnTestInactive1").addEventListener("click", function() {
+      loadUrl("https://www.southbankmosaics.com/work", this);
+    });
+
+    document.getElementById("btnTestInactive2").addEventListener("click", function() {
+      loadUrl("https://www.voicefmradio.co.uk/listen", this);
+    });
+
+    document.getElementById("btnTestActive1").addEventListener("click", function() {
+      loadUrl("https://www.tcs.com/careers", this);
+    });
+
+    document.getElementById("btnTestActive2").addEventListener("click", function() {
+      loadUrl("https://www.infosys.com/services.html", this);
+    });
+
+    document.getElementById("btnTestThreat").addEventListener("click", function() {
+      loadUrl("https://google-careers-example.xyz/internship", this);
+    });
+
+    document.getElementById("btnTestClean").addEventListener("click", function() {
+      loadUrl("https://wikipedia.org", this);
+    });
+  </script>
+</body>
+</html>

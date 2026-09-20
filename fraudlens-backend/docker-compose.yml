@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: fraudlens-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./fraudlens.db}
+      - JWT_SECRET_KEY=fraudlens-jwt-secret-key-change-in-production-use-strong-entropy
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+      - FRONTEND_DIR=/app/frontend
+    volumes:
+      - ./fraudlens.db:/app/fraudlens.db
+      - ./models:/app/models
+      - ./datasets:/app/datasets
+      - ./temp_uploads:/app/temp_uploads
+      - ./generated_reports:/app/generated_reports
+      - ../index.html:/app/frontend/index.html:ro
+      - ../css:/app/frontend/css:ro
+      - ../js:/app/frontend/js:ro
+
+  worker:
+    build: .
+    container_name: fraudlens-worker
+    restart: unless-stopped
+    command: celery -A app.workers.celery_app worker --loglevel=info
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://fraudlens_user:fraudlens_secure_pass_2026@postgres:5432/fraudlens_db
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./temp_uploads:/app/temp_uploads
+      - ./generated_reports:/app/generated_reports
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: fraudlens-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fraudlens_user
+      POSTGRES_PASSWORD: fraudlens_secure_pass_2026
+      POSTGRES_DB: fraudlens_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fraudlens_user -d fraudlens_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: fraudlens-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:

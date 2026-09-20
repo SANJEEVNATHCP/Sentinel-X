@@ -1,0 +1,210 @@
+/* =============================================
+   FRAUDLENS AI — HERO SECTION
+   ============================================= */
+
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: var(--space-4xl) 0;
+}
+
+/* Background canvas */
+.hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Gradient overlays */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 30% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3xl);
+  align-items: center;
+}
+
+/* Left: Text content */
+.hero-text {
+  animation: fadeInUp 0.8s ease;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--text-accent);
+  margin-bottom: var(--space-xl);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.hero-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--accent-primary);
+  animation: pulse 2s ease infinite;
+}
+
+.hero-title {
+  font-size: var(--fs-hero);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: var(--space-lg);
+  letter-spacing: -0.03em;
+}
+
+.hero-title .highlight {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: var(--fs-lg);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--space-sm);
+  max-width: 540px;
+}
+
+.hero-tagline {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: var(--space-2xl);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.hero-actions .btn {
+  font-size: var(--fs-base);
+  padding: 16px 32px;
+}
+
+/* Right: Shield Animation */
+.hero-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: fadeIn 1s ease 0.3s both;
+}
+
+.shield-container {
+  position: relative;
+  width: 420px;
+  height: 420px;
+}
+
+.shield-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Bottom gradient fade */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, var(--bg-primary), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Stats bar below hero */
+.hero-stats {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3xl);
+  padding: var(--space-xl) 0;
+  margin-top: var(--space-xl);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-value {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  color: var(--text-white);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-stat-label {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  animation: float 3s ease-in-out infinite;
+}
+
+.scroll-indicator .scroll-line {
+  width: 1px;
+  height: 30px;
+  background: linear-gradient(to bottom, var(--text-muted), transparent);
+}

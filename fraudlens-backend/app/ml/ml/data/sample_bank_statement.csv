@@ -1,0 +1,4 @@
+date,description,debit,credit,balance,reference
+2025-06-28,UPI grocery payment,1250.00,0,18750.00,REF_SYN_001
+2025-06-29,Salary credit,0,45000.00,63750.00,REF_SYN_002
+2025-06-29,UPI utility payment,980.00,0,62770.00,REF_SYN_003

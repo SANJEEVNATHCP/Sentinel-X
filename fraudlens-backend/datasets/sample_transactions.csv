@@ -1,0 +1,9 @@
+transaction_id,user_id,amount,timestamp,sender,receiver,upi_id,device_id,location,transaction_status,failed_attempts
+TXN1001,usr_test_01,1500.00,2026-09-10T10:15:00Z,Rahul Sharma,Swiggy,swiggy@icici,DEV_001,Mumbai,SUCCESS,0
+TXN1002,usr_test_01,850.00,2026-09-11T13:20:00Z,Rahul Sharma,Uber India,uber@hdfcbank,DEV_001,Mumbai,SUCCESS,0
+TXN1003,usr_test_01,2200.00,2026-09-12T19:45:00Z,Rahul Sharma,Amazon Pay,amazon@apl,DEV_001,Mumbai,SUCCESS,0
+TXN1004,usr_test_01,1850.00,2026-09-13T12:00:00Z,Rahul Sharma,Zomato,zomato@axisbank,DEV_001,Mumbai,SUCCESS,0
+TXN1005,usr_test_01,3100.00,2026-09-14T16:30:00Z,Rahul Sharma,Dmart Store,dmart@sbi,DEV_001,Mumbai,SUCCESS,0
+TXN1006,usr_test_01,1600.00,2026-09-15T11:10:00Z,Rahul Sharma,Airtel Bill,airtel@airtelpaymentsbank,DEV_001,Mumbai,SUCCESS,0
+TXN1007,usr_test_01,48500.00,2026-09-18T03:42:00Z,Rahul Sharma,Quick Win Cash,crypto_fast_pay@ybl,DEV_999,Lagos,SUCCESS,3
+TXN1008,usr_test_01,75000.00,2026-09-18T03:48:00Z,Rahul Sharma,Immediate Verification,urgent_kyc@paytm,DEV_999,Lagos,SUCCESS,2

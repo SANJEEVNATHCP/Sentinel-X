@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "domain": "google-careers-example.xyz",
+    "url": "https://google-careers-example.xyz/internship",
+    "risk_level": "HIGH",
+    "risk_score": 85,
+    "reason": "Fake recruitment domain used in demonstration dataset",
+    "source": "ScamShield Intelligence DB",
+    "created_at": "2026-09-01T00:00:00Z"
+  },
+  {
+    "id": 2,
+    "domain": "example-scam-site.com",
+    "url": "https://example-scam-site.com/internship",
+    "risk_level": "HIGH",
+    "risk_score": 90,
+    "reason": "Domain found in ScamShield dataset",
+    "source": "ScamShield Threat Feed",
+    "created_at": "2026-09-10T12:00:00Z"
+  },
+  {
+    "id": 3,
+    "domain": "paypal-security-update.xyz",
+    "url": "https://paypal-security-update.xyz/login",
+    "risk_level": "CRITICAL",
+    "risk_score": 98,
+    "reason": "Phishing domain impersonating financial account verification",
+    "source": "ScamShield Anti-Phishing Engine",
+    "created_at": "2026-09-15T08:30:00Z"
+  },
+  {
+    "id": 4,
+    "domain": "sbi-kyc-verification.top",
+    "url": "https://sbi-kyc-verification.top/pan-link",
+    "risk_level": "HIGH",
+    "risk_score": 92,
+    "reason": "Fraudulent banking KYC credential harvest domain",
+    "source": "ScamShield Threat Feed",
+    "created_at": "2026-09-18T10:00:00Z"
+  },
+  {
+    "id": 5,
+    "domain": "microsoft-support-fix.buzz",
+    "url": "https://microsoft-support-fix.buzz/call-tech",
+    "risk_level": "HIGH",
+    "risk_score": 88,
+    "reason": "Tech support scam domain imitating vendor portal",
+    "source": "ScamShield Anti-Fraud DB",
+    "created_at": "2026-09-18T11:20:00Z"
+  }
+]
