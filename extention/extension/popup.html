@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScamShield AI</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="popup-container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="header-branding">
+        <h1 class="header-title">ScamShield AI</h1>
+      </div>
+      <button id="configToggleBtn" class="btn-icon" title="Configure Backend & Web URLs"
+        aria-label="Settings">⚙</button>
+    </header>
+
+    <!-- Solid Red Status & Pause Bar (Matches Netmirror Reference) -->
+    <div id="statusBar" class="status-bar">
+      <div class="status-indicator-group">
+        <span class="status-label">Status:</span>
+        <span id="statusText" class="status-value">Active</span>
+      </div>
+      <button id="pauseToggleBtn" class="btn-status-pause">Pause</button>
+    </div>
+
+    <!-- Quick Settings Panel (Hidden by default) -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <div class="settings-header">
+        <span class="settings-title">Configuration</span>
+        <button id="closeSettingsBtn" class="btn-text" aria-label="Close settings">✕</button>
+      </div>
+      <div class="form-group">
+        <label for="webUrlInput">ScamShield Web URL:</label>
+        <input type="text" id="webUrlInput" placeholder="http://127.0.0.1:8000" spellcheck="false">
+      </div>
+      <div class="form-group">
+        <label for="apiUrlInput">Check URL API Endpoint:</label>
+        <input type="text" id="apiUrlInput" placeholder=" http://127.0.0.1:8000" spellcheck="false">
+      </div>
+      <div class="settings-actions">
+        <button id="saveSettingsBtn" class="btn btn-primary btn-sm">Save Config</button>
+        <button id="resetSettingsBtn" class="btn btn-secondary btn-sm">Reset</button>
+      </div>
+    </div>
+
+    <!-- Current Website Section -->
+    <section class="website-card">
+      <div class="card-header-label">Current Website</div>
+      <div id="domainDisplay" class="domain-display" title="Domain">Detecting...</div>
+
+      <div class="url-row">
+        <div id="urlDisplay" class="url-display" title="Full URL">https://...</div>
+        <button id="copyUrlBtn" class="btn-copy" title="Copy Full URL" aria-label="Copy URL">Copy</button>
+      </div>
+    </section>
+
+    <!-- Dynamic Result Section -->
+    <section id="resultSection" class="result-card">
+      <!-- State 1: Checking -->
+      <div id="stateChecking" class="state-container">
+        <div class="spinner-row">
+          <div class="spinner"></div>
+          <span class="state-text-checking">Checking ScamShield dataset...</span>
+        </div>
+      </div>
+
+      <!-- State 2: Warning / Suspicious Found -->
+      <div id="stateWarning" class="state-container hidden">
+        <div class="warning-panel">
+          <div class="warning-header">
+            <span class="warning-icon">⚠</span>
+            <span class="warning-title">SCAMSHIELD WARNING</span>
+          </div>
+
+          <p class="warning-subtitle">Suspicious website detected.</p>
+
+          <div class="info-grid">
+            <div class="info-row">
+              <span class="info-label">Domain:</span>
+              <span id="warningDomain" class="info-value"></span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Match:</span>
+              <span id="warningMatch" class="info-value text-red">Known suspicious domain</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Risk Level:</span>
+              <span id="warningRiskLevel" class="badge-risk badge-high">HIGH</span>
+            </div>
+            <div id="warningScoreRow" class="info-row hidden">
+              <span class="info-label">Risk Score:</span>
+              <span id="warningRiskScore" class="info-value"></span>
+            </div>
+            <div class="info-row reason-row">
+              <span class="info-label">Reason:</span>
+              <span id="warningReason" class="info-value reason-value">Domain found in ScamShield dataset.</span>
+            </div>
+          </div>
+
+          <div class="security-checklist">
+            <div class="checklist-title">Verify the website before providing:</div>
+            <ul class="checklist-items">
+              <li>Passwords</li>
+              <li>OTPs</li>
+              <li>Banking information</li>
+              <li>Personal documents</li>
+              <li>Payments</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- State 3: No Known Match Found -->
+      <div id="stateNoMatch" class="state-container hidden">
+        <div class="neutral-panel">
+          <div class="neutral-header">
+            <span class="neutral-icon">✓</span>
+            <span class="neutral-title">NO KNOWN MATCH</span>
+          </div>
+          <p class="neutral-desc">This domain was not found in the ScamShield dataset.</p>
+          <div class="neutral-disclaimer">
+            No known match found. Always verify site authenticity before entering sensitive credentials.
+          </div>
+        </div>
+      </div>
+
+      <!-- State 4: Backend Unavailable / Error -->
+      <div id="stateError" class="state-container hidden">
+        <div class="error-panel">
+          <div class="error-header">
+            <span class="error-icon">⚠</span>
+            <span class="error-title">ScamShield unavailable</span>
+          </div>
+          <p class="error-desc">Unable to check this website against the dataset.</p>
+          <p class="error-subdesc">The backend connection could not be established. Website security status is unknown.
+          </p>
+        </div>
+      </div>
+
+      <!-- State 5: Paused -->
+      <div id="statePaused" class="state-container hidden">
+        <div class="paused-panel">
+          <div class="paused-title">Automatic Checking Paused</div>
+          <p class="paused-desc">Automatic domain verification is temporarily suspended. Click Resume above or manually
+            scan below.</p>
+        </div>
+      </div>
+
+      <!-- State 6: Non-web Page (chrome://, file://, blank) -->
+      <div id="stateNonWeb" class="state-container hidden">
+        <div class="nonweb-panel">
+          <div class="nonweb-title">Internal / Local Page</div>
+          <p class="nonweb-desc">ScamShield AI monitors external web pages (HTTP/HTTPS). This page does not require
+            dataset verification.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons Section (Rectangular buttons matching reference) -->
+    <footer class="actions-section">
+      <!-- Full Analysis Button (shown on suspicious/warning state) -->
+      <button id="viewAnalysisBtn" class="btn btn-warning full-width hidden">View Full Analysis</button>
+
+      <div class="button-row">
+        <!-- Scan Current Website Manual Scan Button -->
+        <button id="scanCurrentBtn" class="btn btn-primary">Scan Website</button>
+        <!-- Open ScamShield Navigation Button -->
+        <button id="openWebBtn" class="btn btn-secondary">Open ScamShield</button>
+      </div>
+
+      <!-- Retry Button (shown on backend unavailable) -->
+      <button id="retryScanBtn" class="btn btn-primary full-width hidden">Retry Scan</button>
+    </footer>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+
+</html>

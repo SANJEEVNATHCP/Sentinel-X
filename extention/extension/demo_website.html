@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>South Bank Mosaics — Demo Website</title>
+  <link rel="stylesheet" href="content.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 20px 40px;
+    }
+    .hero {
+      padding: 60px 40px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    .btn-action {
+      background: #2563eb;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>South Bank Mosaics (Demo Site)</h2>
+  </header>
+
+  <div class="hero">
+    <h1>Welcome to South Bank Mosaics</h1>
+    <p>This is a simulated public website corresponding to the domain <code>southbankmosaics.com</code> listed as <strong>Inactive</strong> in <code>sample.xlsx</code>.</p>
+    <p>When the ScamShield AI extension runs on this page, an in-browser warning popup message is automatically displayed on top of the browser viewport to alert the user.</p>
+    <button class="btn-action" id="triggerBtn">Trigger In-Browser Warning Popup</button>
+  </div>
+
+  <script src="content.js"></script>
+  <script>
+    // Simulate background notification if opened directly in browser without extension context
+    document.getElementById("triggerBtn").addEventListener("click", () => {
+      window.postMessage({
+        type: "SCAMSHIELD_SHOW_WARNING",
+        result: {
+          found: true,
+          risk_level: "HIGH",
+          company_status: "Inactive",
+          company_name: "southbankmosaics",
+          cin: "DEMO-INACTIVE-001",
+          domain: "southbankmosaics.com",
+          reason: "Company 'southbankmosaics' is marked as INACTIVE in dataset (sample.xlsx). Caution: Website or company may be defunct or unauthorized.",
+          web_url: "http://localhost:5000"
+        }
+      }, "*");
+    });
+
+    // Auto-trigger on page load for immediate demonstration
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        window.postMessage({
+          type: "SCAMSHIELD_SHOW_WARNING",
+          result: {
+            found: true,
+            risk_level: "HIGH",
+            company_status: "Inactive",
+            company_name: "southbankmosaics",
+            cin: "DEMO-INACTIVE-001",
+            domain: "southbankmosaics.com",
+            reason: "Company 'southbankmosaics' is marked as INACTIVE in dataset (sample.xlsx). Caution: Website or company may be defunct or unauthorized.",
+            web_url: "http://localhost:5000"
+          }
+        }, "*");
+      }, 500);
+    });
+
+    // Forward window messages to chrome.runtime listener simulation
+    window.addEventListener("message", (event) => {
+      if (event.data && event.data.type === "SCAMSHIELD_SHOW_WARNING") {
+        displayInBrowserWarningPopup(event.data.result);
+      }
+    });
+  </script>
+</body>
+</html>
